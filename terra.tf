@@ -8,7 +8,7 @@ terraform {
 
 provider "morpheus" {
   url          = "https://emorph.can.cs8.local/"
-  access_token = "bd9608b9-2aa7-4f49-86ad-a593ba34ebff"
+  access_token = ""
 }
 
 
