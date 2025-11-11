@@ -1,3 +1,12 @@
+terraform {
+  required_providers {
+    morpheus = {
+      source  = "gomorpheus/morpheus"
+      version = "~> 0.29.0"
+    }
+  }
+}
+
 provider "morpheus" {
   }
 
