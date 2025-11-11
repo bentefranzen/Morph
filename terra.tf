@@ -7,10 +7,7 @@ terraform {
 }
 
 provider "morpheus" {
-  url          = "https://emorph.can.cs8.local/"
-  access_token = ""
-}
-
+  }
 
 data "morpheus_group" "Group" {
   name = "Vmware Group"
