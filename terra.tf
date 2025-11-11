@@ -1,11 +1,3 @@
-terraform {
-  required_providers {
-    morpheus = {
-      source  = "gomorpheus/morpheus"
-     }
-  }
-}
-
 provider "morpheus" {
   }
 
