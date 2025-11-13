@@ -1,6 +1,6 @@
 provider "vsphere" {
   user                 = "administrator@vsphere.local"
-  password             = "Password!234"
+  password             = ""
   vsphere_server       = "vcsa8.can.cs8.local"
   allow_unverified_ssl = true
 }
