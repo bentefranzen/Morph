@@ -1,50 +1,60 @@
-terraform {
-  required_providers {
-    morpheus = {
-      source  = "gomorpheus/morpheus"
-      version = ">= 0.14.0"
-    }
+provider "vsphere" {
+  user                 = "administrator@vsphere.local"
+  password             = "Password!234"
+  vsphere_server       = "vcsa8.can.cs8.local"
+  allow_unverified_ssl = true
+}
+
+data "vsphere_datacenter" "dc" {
+  name = "AMVLAB"
+}
+
+data "vsphere_datastore" "datastore" {
+  name          = "vsanDatastore"
+  datacenter_id = data.vsphere_datacenter.dc.id
+}
+
+data "vsphere_compute_cluster" "cluster" {
+  name          = "CL1"
+  datacenter_id = data.vsphere_datacenter.dc.id
+}
+
+data "vsphere_resource_pool" "pool" {
+  name          = "Resources"
+  datacenter_id = data.vsphere_datacenter.dc.id
+}
+
+data "vsphere_network" "network" {
+  name          = "dc-mgmt"
+  datacenter_id = data.vsphere_datacenter.dc.id
+}
+
+
+data "vsphere_virtual_machine" "template" {
+  name          = "ubuntu-down"
+  datacenter_id = data.vsphere_datacenter.dc.id
+}
+
+resource "vsphere_virtual_machine" "vm" {
+  name             = "morpheus-tf-vm"
+  guest_id = "ubuntu64Guest"
+  num_cpus  = 1
+  memory  = 1024
+  resource_pool_id = data.vsphere_resource_pool.pool.id
+  datastore_id     = data.vsphere_datastore.datastore.id
+
+network_interface {
+    network_id   = data.vsphere_network.network.id
+    adapter_type = data.vsphere_virtual_machine.template.network_interface_types[0]
+  }
+
+ disk {
+    label            = "disk0"
+    size             = data.vsphere_virtual_machine.template.disks[0].size
+    thin_provisioned = true
+  }
+
+    clone {
+    template_uuid = data.vsphere_virtual_machine.template.id
   }
 }
-
-provider "morpheus" {
-  }
-
-data "morpheus_group" "Group" {
-  name = "Vmware Group"
-}
-
-data "morpheus_cloud" "Cloud" {
-  name = "Vmware Cloud"
-}
-
-data "morpheus_resource_pool" "Pool" {
-# name     = "Morpheus-Cluster"
-  name    = "CL1"
-  cloud_id = data.morpheus_cloud.Cloud.id
-}
-
-data "morpheus_instance_type" "centos" {
-  name = "CentOS"
-}
-
-data "morpheus_instance_layout" "Layout" {
-  name               = "ESXi VM"
-  version            = "9-stream"
-}
-
-data "morpheus_plan" "Plan" {
-  name           = "G1-Small"
-  provision_type = "vmware"
-}
-
-resource "morpheus_vsphere_instance" "tf_example_instance" {
-  name               = "tfInstance"
-  description        = "Terraform instance example"
-  cloud_id           = data.morpheus_cloud.Cloud.id
-  group_id           = data.morpheus_group.Group.id
-  instance_type_id   = data.morpheus_instance_type.centos.id
-  instance_layout_id = data.morpheus_instance_layout.Layout.id
-  plan_id            = data.morpheus_plan.Plan.id
-  resource_pool_id   = data.morpheus_resource_pool.Pool.id
- }
