@@ -33,11 +33,6 @@ data "morpheus_cloud" "Cloud" {
   name = "VMware Cloud"
 }
 
-data "morpheus_cloud_folder" "cloud_folder" {
-  name = "ComputeFolder"
-  cloud_id = data.morpheus_cloud.Cloud.id
-}
-
 data "morpheus_resource_pool" "Pool" {
   name    = "CL1"
   cloud_id = data.morpheus_cloud.Cloud.id
@@ -63,7 +58,6 @@ data "morpheus_plan" "Plan" {
 
 resource "morpheus_vsphere_instance" "tf_example_instance" {
   name               = var.morpheus_name
-  folder_id          = data.morpheus_cloud_folder.cloud_folder.id
   description        = "Terraform instance example"
   cloud_id           = data.morpheus_cloud.Cloud.id
   group_id           = data.morpheus_group.Group.id
