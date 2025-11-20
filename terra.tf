@@ -52,6 +52,7 @@ data "morpheus_plan" "Plan" {
 }
 
 resource "morpheus_vsphere_instance" "tf_example_instance" {
+  name               = "tfInstance2"
   description        = "Terraform instance example"
   cloud_id           = data.morpheus_cloud.Cloud.id
   group_id           = data.morpheus_group.Group.id
