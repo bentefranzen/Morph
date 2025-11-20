@@ -18,11 +18,6 @@ variable "morpheus_name" {
   type        = string
 }
 
-variable "morpheus_folder" {
-  description = "Folder name"
-  type        = string
-}
-
 provider "morpheus" {
   url          = "https://emorph.can.cs8.local/"
   access_token = var.morpheus_api_token
