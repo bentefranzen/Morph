@@ -7,9 +7,15 @@ terraform {
   }
 }
 
+variable "morpheus_api_token" {
+  description = "Morpheus API token"
+  sensitive   = true
+  type        = string
+}
+
 provider "morpheus" {
   url          = "https://emorph.can.cs8.local/"
-  access_token = ""
+  access_token = var.morpheus_api_token
   secure       = false
 }
 
