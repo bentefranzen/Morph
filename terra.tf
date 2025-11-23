@@ -52,7 +52,7 @@ data "morpheus_network" "vmnetwork" {
 }
 
 data "morpheus_plan" "Plan" {
-  name           = "1 CPU, 2GB Memory"
+  name           = "1 CPU, 4GB Memory"
   provision_type = "vmware"
 }
 
