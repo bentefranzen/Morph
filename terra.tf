@@ -15,7 +15,7 @@ variable "morpheus_api_token" {
 
 variable "morpheus_instance_name" {
   description = "Morpheus API token"
-  sensitive   = true
+  sensitive   = false
   type        = string
 }
 
