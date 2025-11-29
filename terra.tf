@@ -13,12 +13,6 @@ variable "morpheus_api_token" {
   type        = string
 }
 
-variable "morpheus_instance_name" {
-  description = "Morpheus API token"
-  sensitive   = false
-  type        = string
-}
-
 provider "morpheus" {
   url          = "https://emorph.can.cs8.local/"
   access_token = var.morpheus_api_token
@@ -52,13 +46,13 @@ data "morpheus_network" "vmnetwork" {
 }
 
 data "morpheus_plan" "Plan" {
-  name           = "2 CPU, 4GB Memory"
+  name           = "1 CPU, 2GB Memory"
   provision_type = "vmware"
 }
 
 resource "morpheus_vsphere_instance" "tf_example_instance" {
   count              = 2
-  name               = "DemoInstance - ${count.index}"
+  name               = "DemoInstance-${count.index}-${sequence+3000}
   description        = "Terraform instance example"
   cloud_id           = data.morpheus_cloud.Cloud.id
   group_id           = data.morpheus_group.Group.id
