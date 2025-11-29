@@ -58,7 +58,7 @@ data "morpheus_plan" "Plan" {
 
 resource "morpheus_vsphere_instance" "tf_example_instance" {
   count              = 2
-  name               = var.morpheus_instance_name "${count.index}"
+  name               = "DemoInstance - ${count.index}"
   description        = "Terraform instance example"
   cloud_id           = data.morpheus_cloud.Cloud.id
   group_id           = data.morpheus_group.Group.id
